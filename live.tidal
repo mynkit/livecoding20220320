@@ -1,0 +1,57 @@
+setcps (129/60/4)
+
+all $ (|+ n (0)).(|* gain 1.2)
+
+once $ s "tableware" # n 2
+
+d1
+  $ sometimesBy 0.75 (jux (rev))
+  $ ((|> pingpong 0.4).(|> pingpongt (3/16)).(|> pingpongfb 0.5))
+  $ s "[~ guitar_clean_chord_c]"
+  # n (choose [0,2,5,7])
+  # speed (choose [1,-1,0.5,1,-0.5,2,-2])
+  # gain 0.7
+  # pan (slow 3 $ sine)
+
+d2
+  $ sometimesBy 0.2 (0.25 ~>)
+  $ s "[~ [SinOscSynthBend SinOscSynthBend/4]] ~ ~ ~"
+  # n "<af2,af3,af4>" # sustain 0.05
+  # hpf 400 # lpf 800 # gain 1.03
+
+d3
+  $ every' 8 7 (# gain 0.7)
+  $ s "[~ bassSynth?] [~ bassSynth*2] ~ ~" # n "<c2,c3>" # sustain "0.7 [~ [0.15 0.3]] 0.4 0.4" # gain 0
+
+
+d5
+  $ every 4 (# speed (choose [0.4, -0.5]))
+  -- $ ((# freeverb 0.7).(# size 0.9))
+  $ someCyclesBy 0.7 ((# room 0.7).(# size 0.3))
+  $ someCyclesBy 0.25 ((# delay 0.25).(# delayt 0.25).(# delayfb 0.6).(# lock 1))
+  $ s "<birds*1.5 ~ birds*3 ~>"
+  # n (irand 5)
+  # speed 0.7
+  # pan sine
+  # gain 0.4
+
+d4
+  $ slow 4
+  $ sometimesBy 0.4 (jux (rev))
+  $ stut' 2 (3/64) ((|* gain 0.9).(|> lpf 300).(|> pan (0)))
+  $ stut' 3 (3/32) ((|* gain 0.8).(|> lpf 300).(|> pan (1)))
+  $ (|+ n 5)
+  $ s "MyMoog*4"
+  # n "{<d4,e5,a5> <a3,b4,e5> <d4,e5,b5> <a3,b4,df5>}%4"
+  # pitch1 (range 0.8 1.6 rand)
+  # sustain 5
+  # room 0.3 # size 0.3
+  # gain (range 0.52 0.4 rand)
+
+d7
+  $ fast (range 5 8 rand)
+  $ s "SinOscSynthBend*8"
+  # n (choose [2,3,4,5])
+  # sustain (range 0.0004 0.0006 rand)
+  # pan (slow 1.5 rand)
+  # gain 0.8
